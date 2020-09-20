@@ -1,0 +1,6 @@
+name: SimpleUUIDApi
+api-version: 1.16
+author: ramdon_person
+main: com.voidcitymc.plugins.SimpleUUIDApi.Main
+version: 1-Snapshot
+website: https://plugins.voidcitymc.com
