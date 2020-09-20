@@ -7,10 +7,9 @@ import org.json.JSONObject;
 
 public class GetUUID {
     public static String getUUID(String player) {
-        String playerUUID = null;
         OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(player);
         if (offlinePlayer.hasPlayedBefore()) {
-            playerUUID = offlinePlayer.getUniqueId().toString();
+            return offlinePlayer.getUniqueId().toString();
         }
         //if luckperms is false use mojang then.
         return mojangUUIDLookup(player);
