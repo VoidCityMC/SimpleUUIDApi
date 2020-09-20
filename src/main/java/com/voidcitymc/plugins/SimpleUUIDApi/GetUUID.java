@@ -1,22 +1,16 @@
 package com.voidcitymc.plugins.SimpleUUIDApi;
 
-import net.luckperms.api.LuckPerms;
-import net.luckperms.api.model.user.User;
 import org.bukkit.Bukkit;
-import org.bukkit.plugin.RegisteredServiceProvider;
+import org.bukkit.OfflinePlayer;
 import org.json.JSONObject;
 
 
 public class GetUUID {
     public static String getUUID(String player) {
         String playerUUID = null;
-        RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
-        if (provider != null) {
-            LuckPerms api = provider.getProvider();
-            User user = api.getUserManager().getUser(player);
-            if (user != null) {
-                playerUUID = user.getUniqueId().toString();
-            }
+        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(player);
+        if (offlinePlayer.hasPlayedBefore()) {
+            playerUUID = offlinePlayer.getUniqueId().toString();
         }
         //if luckperms is false use mojang then.
         return mojangUUIDLookup(player);
