@@ -12,7 +12,10 @@ public class GetUUID {
     public static String getUUID(String player) {
         Essentials essentialsMain = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
         if (essentialsMain != null && essentialsMain.getOfflineUser(player) != null) {
-            return essentialsMain.getOfflineUser(player).getConfigUUID().toString();
+            System.out.println(player);
+            System.out.println(essentialsMain.getOfflineUser(player).getConfigUUID().toString());
+            System.out.println(essentialsMain.getUserMap().getUser(player).getConfigUUID().toString());
+            return essentialsMain.getUserMap().getUser(player).getConfigUUID().toString();
         }
         //if luckperms is false use mojang then.
         return mojangUUIDLookup(player);
