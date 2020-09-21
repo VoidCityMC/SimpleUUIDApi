@@ -1,9 +1,7 @@
 package com.voidcitymc.plugins.SimpleUUIDApi;
 
 import com.earth2me.essentials.Essentials;
-import com.earth2me.essentials.User;
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.json.JSONObject;
 
 
@@ -11,7 +9,7 @@ import org.json.JSONObject;
 public class GetUUID {
     public static String getUUID(String player) {
         Essentials essentialsMain = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
-        if (essentialsMain != null && essentialsMain.getOfflineUser(player) != null) {
+        if (essentialsMain != null && essentialsMain.getOfflineUser(player).getConfigUUID() != null) {
             return essentialsMain.getUserMap().getUser(player).getConfigUUID().toString();
         }
         //if luckperms is false use mojang then.
