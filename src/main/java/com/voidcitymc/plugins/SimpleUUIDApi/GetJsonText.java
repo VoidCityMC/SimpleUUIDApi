@@ -13,7 +13,7 @@ import java.nio.charset.StandardCharsets;
 public class GetJsonText {
     public static String getJsonUsernameToUUID(String username, String uuid) {
         JSONObject mainObject = new JSONObject();
-        mainObject.put("id", "e54bb1e5ee8d44a58ebda44daf8c8dbd");
+        mainObject.put("id", GetUUID.getUUID(username));
         mainObject.put("name", username);
         return mainObject.toString();
     }
