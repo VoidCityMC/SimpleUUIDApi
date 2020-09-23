@@ -9,12 +9,15 @@ import org.json.JSONObject;
 public class GetUUID {
     public static String getUUID(String player, String token) {
         Essentials essentialsMain = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
+        System.out.println(essentialsMain != null && essentialsMain.getOfflineUser(player).getConfigUUID() != null);
         if (essentialsMain != null && essentialsMain.getOfflineUser(player).getConfigUUID() != null) {
-            System.out.println("-"+essentialsMain.getUserMap().getUser(player).getConfigUUID().toString()+"-");
             return essentialsMain.getUserMap().getUser(player).getConfigUUID().toString();
         }
 
+        System.out.println("mojang");
         //if essentials is false use mojang then.
+        System.out.println(player.charAt(0));
+        System.out.println(player.charAt(0) != '-');
         if (player.charAt(0) != '-') {
             String mojang = mojangUUIDLookup(player);
             if (mojang != null) {
