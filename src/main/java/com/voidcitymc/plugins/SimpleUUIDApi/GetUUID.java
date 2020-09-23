@@ -1,28 +1,30 @@
 package com.voidcitymc.plugins.SimpleUUIDApi;
 
-import com.earth2me.essentials.Essentials;
-import org.bukkit.Bukkit;
 import org.json.JSONObject;
 
 
 
 public class GetUUID {
     public static String getUUID(String player, String token) {
-        Essentials essentialsMain = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
-        if (essentialsMain != null && essentialsMain.getOfflineUser(player) != null) {
-            return essentialsMain.getUserMap().getUser(player).getConfigUUID().toString();
+
+        Storage db = new Storage();
+        String cachedUUID = db.getUUID(player);
+        if (cachedUUID != null) {
+            return cachedUUID;
         }
 
         //if essentials is false use mojang then.
         if (player.charAt(0) != '-') {
             String mojang = mojangUUIDLookup(player);
             if (mojang != null) {
+                db.storeUUID(player, mojang);
                 return formatUUID(mojang);
             }
         }
         //if mojang is false then use bedrock
         String xuid = GetJsonText.readtextFromUrl("https://xapi.us/v2/xuid/"+player.replaceFirst("-", ""), token);
         String bedrock = "0000000000000000000"+Long.toHexString(Long.parseLong(xuid));
+        db.storeUUID(player, bedrock);
         return formatUUID(bedrock);
 
     }
