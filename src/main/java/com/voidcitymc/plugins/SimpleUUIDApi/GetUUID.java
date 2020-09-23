@@ -11,7 +11,11 @@ public class GetUUID {
         Essentials essentialsMain = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
         System.out.println("ess");
         if (essentialsMain != null && essentialsMain.getOfflineUser(player).getConfigUUID() != null) {
-            return essentialsMain.getUserMap().getUser(player).getConfigUUID().toString();
+            String ess = essentialsMain.getUserMap().getUser(player).getConfigUUID().toString();
+            System.out.println(ess);
+            if (!ess.isEmpty()) {
+                return essentialsMain.getUserMap().getUser(player).getConfigUUID().toString();
+            }
         }
         //if essentials is false use mojang then.
         if (player.charAt(0) != '-') {
