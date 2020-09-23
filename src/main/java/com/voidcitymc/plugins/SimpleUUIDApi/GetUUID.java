@@ -12,8 +12,8 @@ public class GetUUID {
         System.out.println(player);
         Essentials essentialsMain = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
         System.out.println("hi");
-        System.out.println(essentialsMain.getOfflineUser(player).getLastOnlineActivity());
-        if (essentialsMain != null && essentialsMain.getOfflineUser(player).getConfigUUID() != null) {
+        System.out.println(essentialsMain.getOfflineUser(player) == null);
+        if (essentialsMain != null && essentialsMain.getOfflineUser(player) != null) {
             System.out.println("returning ess");
             return essentialsMain.getUserMap().getUser(player).getConfigUUID().toString();
         }
