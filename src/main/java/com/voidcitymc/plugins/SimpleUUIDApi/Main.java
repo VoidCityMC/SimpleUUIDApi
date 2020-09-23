@@ -1,20 +1,23 @@
 package com.voidcitymc.plugins.SimpleUUIDApi;
 
 import com.sun.net.httpserver.HttpServer;
-import org.bukkit.plugin.java.JavaPlugin;
+import net.md_5.bungee.api.plugin.Plugin;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
-public class Main extends JavaPlugin {
+public class Main extends Plugin {
     private HttpServer server;
     public static String token = "***REMOVED***";
 
     //enabled
     @Override
     public void onEnable() {
+
+        getProxy().getPluginManager().registerListener(this, new Events());
+
         try {
             ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);
             server = HttpServer.create(new InetSocketAddress("0.0.0.0", 8001), 0);
