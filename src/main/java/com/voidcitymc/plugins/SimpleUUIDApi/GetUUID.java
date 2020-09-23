@@ -21,8 +21,7 @@ public class GetUUID {
             }
         }
         //if mojang is false then use bedrock
-        System.out.println(GetJsonText.readtextFromUrl("https://xapi.us/v2/xuid/"+player.replaceFirst("-", ""), token));
-        String bedrock = Integer.toHexString(Integer.parseInt(GetJsonText.readtextFromUrl("https://xapi.us/v2/xuid/"+player.replaceFirst("-", ""), token)));
+        String bedrock = Integer.toHexString(Integer.parseInt(GetJsonText.readtextFromUrl("https://xapi.us/v2/xuid/"+player.replaceFirst("-", ""), token).trim()));
         System.out.println(bedrock);
         return bedrock;
 
