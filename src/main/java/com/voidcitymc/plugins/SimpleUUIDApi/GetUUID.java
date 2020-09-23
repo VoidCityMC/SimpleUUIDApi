@@ -9,7 +9,9 @@ import org.json.JSONObject;
 public class GetUUID {
     public static String getUUID(String player, String token) {
         System.out.println("1");
+        System.out.println(player);
         Essentials essentialsMain = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
+        System.out.println(essentialsMain.getOfflineUser(player).getConfigUUID());
         if (essentialsMain != null && essentialsMain.getOfflineUser(player).getConfigUUID() != null) {
             System.out.println("returning ess");
             return essentialsMain.getUserMap().getUser(player).getConfigUUID().toString();
