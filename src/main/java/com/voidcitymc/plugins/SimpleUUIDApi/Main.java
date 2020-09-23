@@ -10,7 +10,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 public class Main extends JavaPlugin {
     private HttpServer server;
-    public static String token = "04b01ba5f52907f7d26393b07ddb8bc4b00d6a32";
+    public static String token = "***REMOVED***";
 
     //enabled
     @Override

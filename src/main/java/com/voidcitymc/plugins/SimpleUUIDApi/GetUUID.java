@@ -8,26 +8,20 @@ import org.json.JSONObject;
 
 public class GetUUID {
     public static String getUUID(String player, String token) {
-        System.out.println("1");
-        System.out.println(player);
         Essentials essentialsMain = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
-        System.out.println("hi");
-        System.out.println(essentialsMain.getOfflineUser(player) == null);
         if (essentialsMain != null && essentialsMain.getOfflineUser(player) != null) {
-            System.out.println("returning ess");
             return essentialsMain.getUserMap().getUser(player).getConfigUUID().toString();
         }
 
-        System.out.println("mojang");
         //if essentials is false use mojang then.
         if (player.charAt(0) != '-') {
             String mojang = mojangUUIDLookup(player);
             if (mojang != null) {
-                return mojang;
+                return formatUUID(mojang);
             }
         }
         //if mojang is false then use bedrock
-        String bedrock = GetJsonText.readtextFromUrl("https://xapi.us/v2/xuid/"+player.replaceFirst("-", ""), token);
+        String bedrock = Integer.toHexString(Integer.parseInt(GetJsonText.readtextFromUrl("https://xapi.us/v2/xuid/"+player.replaceFirst("-", ""), token)));
         return bedrock;
 
     }
@@ -41,5 +35,9 @@ public class GetUUID {
             return (String) jsonObject.get("id");
         }
         return null;
+    }
+
+    private static String formatUUID(String uuidUnformatted) {
+        return uuidUnformatted.replaceFirst("(\\p{XDigit}{8})(\\p{XDigit}{4})(\\p{XDigit}{4})(\\p{XDigit}{4})(\\p{XDigit}+)", "$1-$2-$3-$4-$5");
     }
 }
