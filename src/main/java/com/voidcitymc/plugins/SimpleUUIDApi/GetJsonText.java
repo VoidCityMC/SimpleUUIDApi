@@ -51,6 +51,7 @@ public class GetJsonText {
         try {
             HttpURLConnection conn = (HttpURLConnection) (new URL(url)).openConnection();
             conn.setRequestProperty("X-Auth", token);
+            conn.setRequestProperty("Content-Type", "application/json");
             conn.setRequestMethod("GET");
             InputStream is = conn.getInputStream();
 
