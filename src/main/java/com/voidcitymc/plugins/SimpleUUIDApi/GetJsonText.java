@@ -50,7 +50,7 @@ public class GetJsonText {
     public static String readtextFromUrl(String url, String token) {
         try {
             HttpURLConnection conn = (HttpURLConnection) (new URL(url)).openConnection();
-            conn.setRequestProperty("AuthToken", token);
+            conn.setRequestProperty("X-AUTH", token);
             conn.setRequestMethod("GET");
             InputStream is = conn.getInputStream();
 
