@@ -12,9 +12,9 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 public class GetJsonText {
-    public static String getJsonUsernameToUUID(String username, String uuid, String token) {
+    public static String getJsonUsernameToUUID(String username, String uuid) {
         JSONObject mainObject = new JSONObject();
-        mainObject.put("id", GetUUID.getUUID(username, token));
+        mainObject.put("id", uuid);
         mainObject.put("name", username);
         return mainObject.toString();
     }
