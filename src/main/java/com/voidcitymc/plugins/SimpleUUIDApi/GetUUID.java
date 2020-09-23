@@ -9,9 +9,9 @@ import org.json.JSONObject;
 public class GetUUID {
     public static String getUUID(String player, String token) {
         System.out.println("1");
-        return "hihihihihihihi";/*
         Essentials essentialsMain = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
         if (essentialsMain != null && essentialsMain.getOfflineUser(player).getConfigUUID() != null) {
+            System.out.println("returning ess");
             return essentialsMain.getUserMap().getUser(player).getConfigUUID().toString();
         }
 
@@ -25,7 +25,7 @@ public class GetUUID {
         }
         //if mojang is false then use bedrock
         String bedrock = GetJsonText.readtextFromUrl("https://xapi.us/v2/xuid/"+player.replaceFirst("-", ""), token);
-        return bedrock;*/
+        return bedrock;
 
     }
 
