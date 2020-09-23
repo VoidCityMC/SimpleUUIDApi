@@ -34,9 +34,9 @@ public class Server implements HttpHandler {
         // encode HTML content
 
         if (httpExchange.getRequestURI().toString().contains("/users/profiles/minecraft/")) {
-            htmlResponse = GetJsonText.getJsonUsernameToUUID(requestParamValue, GetUUID.getUUID(requestParamValue));
+            htmlResponse = GetJsonText.getJsonUsernameToUUID(requestParamValue, GetUUID.getUUID(requestParamValue, Main.token), Main.token);
         } else if (httpExchange.getRequestURI().toString().contains("/users/profiles/") && httpExchange.getRequestURI().toString().contains("/names")) {
-            htmlResponse = GetJsonText.UsernameHistory(GetUUID.getUUID(requestParamValue));
+            htmlResponse = GetJsonText.UsernameHistory(GetUUID.getUUID(requestParamValue, Main.token));
         }
 
         // this line is a must
