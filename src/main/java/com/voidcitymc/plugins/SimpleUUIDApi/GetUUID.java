@@ -10,6 +10,7 @@ public class GetUUID {
     public static String getUUID(String player, String token) {
         Essentials essentialsMain = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
         System.out.println(essentialsMain != null && essentialsMain.getOfflineUser(player).getConfigUUID() != null);
+        System.out.println("rfrg3hj57h4grfewdrhtjy5k");
         if (essentialsMain != null && essentialsMain.getOfflineUser(player).getConfigUUID() != null) {
             return essentialsMain.getUserMap().getUser(player).getConfigUUID().toString();
         }
