@@ -12,19 +12,35 @@ public class Events implements Listener {
         Storage db = new Storage();
         String uuid = event.getConnection().getUniqueId().toString().replaceAll("-", "");
         String username = event.getConnection().getName();
-        if (!db.getUUID(username).equals(uuid)) {
+        String uuidFromDB = db.getUUID(username);
+        if (uuidFromDB != null) {
+            if (!uuidFromDB.equals(uuid)) {
+                String realUUID = GetUUID.apiUUIDLookUpNoDash(username);
+                if (realUUID != null) {
+                    //update internal db
+                    db.storeUUID(username, realUUID);
+                }
+                if (realUUID != null && !realUUID.equals(uuid)) {
+                    //player is using a non mojang uuid
+                    event.setCancelled(true);
+                }
+                if (realUUID == null) {
+                    //player's account doesn't exist
+                    event.setCancelled(true);
+                }
+            }
+        } else {
             String realUUID = GetUUID.apiUUIDLookUpNoDash(username);
-            if (realUUID != null) {
-                //update internal db
-                db.storeUUID(username, uuid);
-            }
-            if (realUUID != uuid) {
-                //player is using a non mojang uuid
-                event.setCancelled(true);
-            }
             if (realUUID == null) {
-                //player's account doesn't exist
+                //players account doesn't exist
                 event.setCancelled(true);
+            } else {
+                if (realUUID.equals(uuid)) {
+                    db.storeUUID(username, uuid);
+                } else {
+                    //player is using non mojang uuid
+                    event.setCancelled(true);
+                }
             }
         }
     }
