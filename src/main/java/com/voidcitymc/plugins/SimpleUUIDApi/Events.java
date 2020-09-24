@@ -12,7 +12,7 @@ public class Events implements Listener {
         Storage db = new Storage();
         String uuid = event.getConnection().getUniqueId().toString().replaceAll("-", "");
         String username = event.getConnection().getName();
-        String uuidFromDB = db.getUUID(username);
+        String uuidFromDB = db.getUUIDNoDash(username);
         if (uuidFromDB != null) {
             if (!uuidFromDB.equals(uuid)) {
                 String realUUID = GetUUID.apiUUIDLookUpNoDash(username);

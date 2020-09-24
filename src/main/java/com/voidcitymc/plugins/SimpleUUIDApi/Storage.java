@@ -23,6 +23,13 @@ public class Storage {
         db.close();
         return returnValue;
     }
+    public String getUUIDNoDash(String username) {
+        DB db = DBMaker.fileDB("uuidStorage.db").make();
+        BTreeMap<String, String> map = db.treeMap("usernameToUUID").keySerializer(Serializer.STRING).valueSerializer(Serializer.STRING).createOrOpen();
+        String returnValue = map.getOrDefault(username, null);
+        db.close();
+        return returnValue;
+    }
     private String formatUUID(String uuidUnformatted) {
         return uuidUnformatted.replaceFirst("(\\p{XDigit}{8})(\\p{XDigit}{4})(\\p{XDigit}{4})(\\p{XDigit}{4})(\\p{XDigit}+)", "$1-$2-$3-$4-$5");
     }
