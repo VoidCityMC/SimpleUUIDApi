@@ -10,10 +10,22 @@ public class Events implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onLogin(LoginEvent event) {
         Storage db = new Storage();
-        String uuid = event.getConnection().getUniqueId().toString();
+        String uuid = event.getConnection().getUniqueId().toString().replaceAll("-", "");
         String username = event.getConnection().getName();
         if (!db.getUUID(username).equals(uuid)) {
-            db.storeUUID(username, uuid);
+            String realUUID = GetUUID.apiUUIDLookUpNoDash(username);
+            if (realUUID != null) {
+                //update internal db
+                db.storeUUID(username, uuid);
+            }
+            if (realUUID != uuid) {
+                //player is using a non mojang uuid
+                event.setCancelled(true);
+            }
+            if (realUUID == null) {
+                //player's account doesn't exist
+                event.setCancelled(true);
+            }
         }
     }
 }

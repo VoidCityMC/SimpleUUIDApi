@@ -19,13 +19,18 @@ public class GetUUID {
             if (mojang != null) {
                 db.storeUUID(player, mojang);
                 return formatUUID(mojang);
+            } else {
+                return null;
             }
         }
         //if mojang is false then use bedrock
         String xuid = GetJsonText.readtextFromUrl("https://xapi.us/v2/xuid/"+player.replaceFirst("-", ""), token);
-        String bedrock = "0000000000000000000"+Long.toHexString(Long.parseLong(xuid));
-        db.storeUUID(player, bedrock);
-        return formatUUID(bedrock);
+        if (xuid != null) {
+            String bedrock = "0000000000000000000" + Long.toHexString(Long.parseLong(xuid));
+            db.storeUUID(player, bedrock);
+            return formatUUID(bedrock);
+        }
+        return null;
 
     }
 
@@ -36,6 +41,18 @@ public class GetUUID {
         if (textFromUrl != null) {
             JSONObject jsonObject = new JSONObject(textFromUrl);
             return (String) jsonObject.get("id");
+        }
+        return null;
+    }
+
+    public static String apiUUIDLookUpNoDash(String player) {
+        if (player.charAt(0) != '-') {
+            return mojangUUIDLookup(player);
+        }
+        //if mojang is false then use bedrock
+        String xuid = GetJsonText.readtextFromUrl("https://xapi.us/v2/xuid/"+player.replaceFirst("-", ""), Main.token);
+        if (xuid != null) {
+            return "0000000000000000000" + Long.toHexString(Long.parseLong(xuid));
         }
         return null;
     }
