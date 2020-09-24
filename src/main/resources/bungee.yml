@@ -1,5 +1,5 @@
 name: SimpleUUIDApi
 author: ramdon_person
-main: com.voidcitymc.plugins.SimpleUUIDApi.spigot.Main
+main: com.voidcitymc.plugins.SimpleUUIDApi.bungeecord.Main
 version: 1-Snapshot
 website: https://plugins.voidcitymc.com

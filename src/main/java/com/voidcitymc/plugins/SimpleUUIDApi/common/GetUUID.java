@@ -1,5 +1,7 @@
-package com.voidcitymc.plugins.SimpleUUIDApi;
+package com.voidcitymc.plugins.SimpleUUIDApi.common;
 
+import com.voidcitymc.plugins.SimpleUUIDApi.SimpleUUIDApi;
+import com.voidcitymc.plugins.SimpleUUIDApi.bungeecord.Main;
 import org.json.JSONObject;
 
 
@@ -50,7 +52,7 @@ public class GetUUID {
             return mojangUUIDLookup(player);
         }
         //if mojang is false then use bedrock
-        String xuid = GetJsonText.readtextFromUrl("https://xapi.us/v2/xuid/"+player.replaceFirst("-", ""), Main.token);
+        String xuid = GetJsonText.readtextFromUrl("https://xapi.us/v2/xuid/"+player.replaceFirst("-", ""), SimpleUUIDApi.token);
         if (xuid != null) {
             return "0000000000000000000" + Long.toHexString(Long.parseLong(xuid));
         }

@@ -1,4 +1,4 @@
-package com.voidcitymc.plugins.SimpleUUIDApi;
+package com.voidcitymc.plugins.SimpleUUIDApi.common;
 
 
 import org.mapdb.BTreeMap;
