@@ -10,13 +10,13 @@ public class Storage {
     public void storeUUID(String username, String uuid) {
         DB db = DBMaker.fileDB("uuidStorage.db").make();
         BTreeMap<String, String> map = db.treeMap("usernameToUUID").keySerializer(Serializer.STRING).valueSerializer(Serializer.STRING).createOrOpen();
-        map.put(username, uuid.replaceAll("-",""));
+        map.put(username.toLowerCase(), uuid.replaceAll("-",""));
         db.close();
     }
     public String getUUID(String username) {
         DB db = DBMaker.fileDB("uuidStorage.db").make();
         BTreeMap<String, String> map = db.treeMap("usernameToUUID").keySerializer(Serializer.STRING).valueSerializer(Serializer.STRING).createOrOpen();
-        String returnValue = map.getOrDefault(username, null);
+        String returnValue = map.getOrDefault(username.toLowerCase(), null);
         if (returnValue != null) {
             returnValue = formatUUID(returnValue);
         }
@@ -26,7 +26,7 @@ public class Storage {
     public String getUUIDNoDash(String username) {
         DB db = DBMaker.fileDB("uuidStorage.db").make();
         BTreeMap<String, String> map = db.treeMap("usernameToUUID").keySerializer(Serializer.STRING).valueSerializer(Serializer.STRING).createOrOpen();
-        String returnValue = map.getOrDefault(username, null);
+        String returnValue = map.getOrDefault(username.toLowerCase(), null);
         db.close();
         return returnValue;
     }
