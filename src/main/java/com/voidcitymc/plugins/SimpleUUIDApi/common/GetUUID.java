@@ -12,7 +12,7 @@ public class GetUUID {
         Storage db = new Storage();
         String cachedUUID = db.getUUID(player);
         if (cachedUUID != null) {
-            return cachedUUID;
+            return cachedUUID
         }
 
         //if essentials is false use mojang then.
@@ -20,7 +20,7 @@ public class GetUUID {
             String mojang = mojangUUIDLookup(player);
             if (mojang != null) {
                 db.storeUUID(player, mojang);
-                return formatUUID(mojang);
+                return mojang;
             } else {
                 return null;
             }
@@ -30,7 +30,7 @@ public class GetUUID {
         if (xuid != null) {
             String bedrock = "0000000000000000000" + Long.toHexString(Long.parseLong(xuid));
             db.storeUUID(player, bedrock);
-            return formatUUID(bedrock);
+            return bedrock;
         }
         return null;
 
