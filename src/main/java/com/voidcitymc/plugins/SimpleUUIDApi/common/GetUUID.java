@@ -12,7 +12,7 @@ public class GetUUID {
         Storage db = new Storage();
         String cachedUUID = db.getUUIDNoDash(player);
         if (cachedUUID != null) {
-            return cachedUUID
+            return cachedUUID;
         }
 
         //if essentials is false use mojang then.
