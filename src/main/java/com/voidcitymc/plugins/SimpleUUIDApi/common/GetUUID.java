@@ -10,7 +10,7 @@ public class GetUUID {
     public static String getUUID(String player, String token) {
 
         Storage db = new Storage();
-        String cachedUUID = db.getUUID(player);
+        String cachedUUID = db.getUUIDNoDash(player);
         if (cachedUUID != null) {
             return cachedUUID
         }
