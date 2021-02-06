@@ -1,5 +1,6 @@
 package com.voidcitymc.plugins.SimpleUUIDApi.common;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -19,12 +20,9 @@ public class GetJsonText {
         return mainObject.toString();
     }
 
-    public static String UsernameHistory(String uuid) {
-        try {
-            return readJsonFromUrl("https://api.mojang.com/user/profiles/"+uuid+"/names");
-        } catch (IOException e) {
-            return "invalid uuid or webserver error";
-        }
+
+    public static String usernameHistory(String uuid) {
+        return (new JSONArray().put(0, new JSONObject().put("name", GetUUID.getUsername(uuid)))).toString();
     }
 
     public static String jsonFromURL(String url) {
@@ -35,7 +33,7 @@ public class GetJsonText {
         }
     }
 
-    private static String readJsonFromUrl(String url) throws IOException, JSONException {
+    public static String readJsonFromUrl(String url) throws IOException, JSONException {
         InputStream is = new URL(url).openStream();
         try {
             BufferedReader rd = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));

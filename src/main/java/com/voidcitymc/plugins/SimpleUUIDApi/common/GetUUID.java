@@ -1,8 +1,11 @@
 package com.voidcitymc.plugins.SimpleUUIDApi.common;
 
+import com.google.gson.JsonObject;
 import com.voidcitymc.plugins.SimpleUUIDApi.SimpleUUIDApi;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.IOException;
 
 
 public class GetUUID {
@@ -22,6 +25,33 @@ public class GetUUID {
         }
 
         return null;
+    }
+
+    public static String getUsername(String uuid) {
+        Storage db = new Storage();
+        String username = db.getUsername(uuid);
+
+        if (username == null) {
+            String mojangUsernameHistory = mojangUsernameHistory(uuid);
+            if (!mojangUsernameHistory.isEmpty()) {
+                username = ((JSONObject)(new JSONArray(mojangUsernameHistory).get(0))).get("name").toString();
+                (new Storage()).storeUUID(username, uuid);
+                return username;
+            } else {
+                if (isBedrockUUID(uuid)) {
+                    System.out.println("is bed uuid");
+                    System.out.println(xuidFromUUID(uuid));
+                    username = "-"+bedrockGamertagLookup(xuidFromUUID(uuid));
+                    (new Storage()).storeUUID(username, uuid);
+                    return username;
+                } else {
+                    //not a valid uuid
+                    return null;
+                }
+            }
+        }
+
+        return username;
     }
 
     //skip internal cache
@@ -69,6 +99,28 @@ public class GetUUID {
         }
         return null;
     }
+
+    private static boolean isBedrockUUID(String uuid) {
+        return uuid.startsWith("00000000");
+    }
+
+    private static long xuidFromUUID(String uuid) {
+        return Long.parseLong(uuid.replaceAll("-", "").substring(19),16);
+    }
+
+
+    public static String mojangUsernameHistory(String uuid) {
+        try {
+            return GetJsonText.readJsonFromUrl("https://api.mojang.com/user/profiles/" + uuid + "/names");
+        } catch (IOException e) {
+            return "invalid uuid or webserver error";
+        }
+    }
+
+    private static String bedrockGamertagLookup(Long XUID) {
+        return GetJsonText.readtextFromUrl("https://xapi.us/v2/gamertag/"+XUID, SimpleUUIDApi.token);
+    }
+
     private static String formatUUID(String uuidUnformatted) {
         return uuidUnformatted.replaceFirst("(\\p{XDigit}{8})(\\p{XDigit}{4})(\\p{XDigit}{4})(\\p{XDigit}{4})(\\p{XDigit}+)", "$1-$2-$3-$4-$5");
     }
