@@ -1,7 +1,6 @@
 package com.voidcitymc.plugins.SimpleUUIDApi.common;
 
-import com.google.gson.JsonObject;
-import com.voidcitymc.plugins.SimpleUUIDApi.SimpleUUIDApi;
+import com.voidcitymc.plugins.SimpleUUIDApi.Manager;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -41,7 +40,7 @@ public class GetUUID {
                 if (isBedrockUUID(uuid)) {
                     System.out.println("is bed uuid");
                     System.out.println(xuidFromUUID(uuid));
-                    username = "-"+bedrockGamertagLookup(xuidFromUUID(uuid));
+                    username = Manager.BedrockPlayerPrefix+bedrockGamertagLookup(xuidFromUUID(uuid));
                     (new Storage()).storeUUID(username, uuid);
                     return username;
                 } else {
@@ -56,7 +55,7 @@ public class GetUUID {
 
     //skip internal cache
     public static String apiUUIDLookUpNoDash(String player) {
-        if (player.charAt(0) != '-') {
+        if (player.charAt(0) != Manager.BedrockPlayerPrefix) {
             String electroid = electroidUUIDLookup(player);
             if (electroid != null) {
                 return electroid;
@@ -73,7 +72,7 @@ public class GetUUID {
     }
 
     private static String mojangUUIDLookup(String player) {
-        String textFromUrl = GetJsonText.jsonFromURL("https://api.mojang.com/users/profiles/minecraft/"+player);
+        String textFromUrl = GetJsonText.jsonFromURL(Manager.MojangUsernameToUUIDUrl.replace("{}", player));
         if (textFromUrl != null) {
             JSONObject jsonObject = new JSONObject(textFromUrl);
             return (String) jsonObject.get("id");
@@ -83,7 +82,7 @@ public class GetUUID {
 
     //https://github.com/Electroid/mojang-api
     private static String electroidUUIDLookup(String player) {
-        String textFromUrl = GetJsonText.jsonFromURL("https://api.ashcon.app/mojang/v2/user/"+player);
+        String textFromUrl = GetJsonText.jsonFromURL(Manager.ElectroidUUIDApi.replace("{}", player));
         if (textFromUrl != null) {
             JSONObject jsonObject = new JSONObject(textFromUrl);
             return ((String) jsonObject.get("uuid")).replaceAll("-","");
@@ -92,7 +91,7 @@ public class GetUUID {
     }
 
     private static String bedrockUUIDLookup(String player) {
-        String xuid = GetJsonText.readtextFromUrl("https://xapi.us/v2/xuid/"+player.replaceFirst("-", ""), SimpleUUIDApi.token);
+        String xuid = GetJsonText.readtextFromUrl(Manager.XApiGamertagToXUID.replace("{}", player.replaceFirst(Character.toString(Manager.BedrockPlayerPrefix), "")), Manager.XApiToken);
         if (xuid != null) {
             String bedrock = "0000000000000000000" + Long.toHexString(Long.parseLong(xuid));
             return bedrock;
@@ -111,14 +110,14 @@ public class GetUUID {
 
     public static String mojangUsernameHistory(String uuid) {
         try {
-            return GetJsonText.readJsonFromUrl("https://api.mojang.com/user/profiles/" + uuid + "/names");
+            return GetJsonText.readJsonFromUrl(Manager.MojangUUIDToUsername.replace("{}", uuid));
         } catch (IOException e) {
             return "invalid uuid or webserver error";
         }
     }
 
     private static String bedrockGamertagLookup(Long XUID) {
-        return GetJsonText.readtextFromUrl("https://xapi.us/v2/gamertag/"+XUID, SimpleUUIDApi.token);
+        return GetJsonText.readtextFromUrl(Manager.XApiXUIDToGamertag.replace("{}", XUID.toString()), Manager.XApiToken);
     }
 
     private static String formatUUID(String uuidUnformatted) {

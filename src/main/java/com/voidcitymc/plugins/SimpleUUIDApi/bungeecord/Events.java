@@ -1,6 +1,7 @@
 package com.voidcitymc.plugins.SimpleUUIDApi.bungeecord;
 
 
+import com.voidcitymc.plugins.SimpleUUIDApi.Manager;
 import com.voidcitymc.plugins.SimpleUUIDApi.common.GetUUID;
 import com.voidcitymc.plugins.SimpleUUIDApi.common.Storage;
 import net.md_5.bungee.api.event.LoginEvent;
@@ -23,25 +24,33 @@ public class Events implements Listener {
                     db.storeUUID(username, realUUID);
                 }
                 if (realUUID != null && !realUUID.equals(uuid)) {
-                    //player is using a non mojang uuid
-                    event.setCancelled(true);
+                    if (Manager.ServerOnlineMode) {
+                        //player is using a non mojang uuid
+                        event.setCancelled(true);
+                    }
                 }
                 if (realUUID == null) {
-                    //player's account doesn't exist
-                    event.setCancelled(true);
+                    if (Manager.ServerOnlineMode) {
+                        //player's account doesn't exist
+                        event.setCancelled(true);
+                    }
                 }
             }
         } else {
             String realUUID = GetUUID.apiUUIDLookUpNoDash(username);
             if (realUUID == null) {
                 //players account doesn't exist
-                event.setCancelled(true);
+                if (Manager.ServerOnlineMode) {
+                    event.setCancelled(true);
+                }
             } else {
                 if (realUUID.equals(uuid)) {
                     db.storeUUID(username, uuid);
                 } else {
                     //player is using non mojang uuid
-                    event.setCancelled(true);
+                    if (Manager.ServerOnlineMode) {
+                        event.setCancelled(true);
+                    }
                 }
             }
         }

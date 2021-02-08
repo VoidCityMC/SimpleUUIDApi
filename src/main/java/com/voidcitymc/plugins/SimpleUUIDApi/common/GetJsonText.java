@@ -20,9 +20,8 @@ public class GetJsonText {
         return mainObject.toString();
     }
 
-
-    public static String usernameHistory(String uuid) {
-        return (new JSONArray().put(0, new JSONObject().put("name", GetUUID.getUsername(uuid)))).toString();
+    public static String getJsonUUIDToUsername(String username, String uuid) {
+        return (new JSONArray().put(0, new JSONObject().put("name", username))).toString();
     }
 
     public static String jsonFromURL(String url) {
