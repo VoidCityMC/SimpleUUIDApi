@@ -55,7 +55,7 @@ public class GetUUID {
 
     //skip internal cache
     public static String apiUUIDLookUpNoDash(String player) {
-        if (player.charAt(0) != Manager.BedrockPlayerPrefix) {
+        if (player.charAt(0) != Manager.BedrockPlayerPrefix.toCharArray()[0]) {
             String electroid = electroidUUIDLookup(player);
             if (electroid != null) {
                 return electroid;
@@ -91,7 +91,7 @@ public class GetUUID {
     }
 
     private static String bedrockUUIDLookup(String player) {
-        String xuid = GetJsonText.readtextFromUrl(Manager.XApiGamertagToXUID.replace("{}", player.replaceFirst(Character.toString(Manager.BedrockPlayerPrefix), "")), Manager.XApiToken);
+        String xuid = GetJsonText.readtextFromUrl(Manager.XApiGamertagToXUID.replace("{}", player.replaceFirst(Manager.BedrockPlayerPrefix, "")), Manager.XApiToken);
         if (xuid != null) {
             String bedrock = "0000000000000000000" + Long.toHexString(Long.parseLong(xuid));
             return bedrock;

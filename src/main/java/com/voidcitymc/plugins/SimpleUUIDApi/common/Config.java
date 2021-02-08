@@ -18,7 +18,7 @@ public class Config {
                 (new File(configFileName)).createNewFile();
 
                 inputStream = Config.class.getClassLoader().getResourceAsStream(configFileName);
-                InputStream defaultConfig = Config.class.getClassLoader().getResourceAsStream("/" + configFileName);
+                InputStream defaultConfig = Config.class.getResourceAsStream("/" + configFileName);
 
                 Properties configFilePropertiesFromDisk = new Properties();
                 configFilePropertiesFromDisk.load(defaultConfig);

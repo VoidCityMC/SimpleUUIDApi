@@ -22,7 +22,7 @@ public class Manager {
     public static String XApiToken;
     public static String ElectroidUUIDApi;
     public static boolean BedrockEditionSupport;
-    public static char BedrockPlayerPrefix;
+    public static String BedrockPlayerPrefix;
     public static boolean ServerOnlineMode;
     public static int ServerPort;
     public static String ServerHostname;
@@ -62,7 +62,7 @@ public class Manager {
         XApiToken = Config.getConfigProperty("XApiToken");
         ElectroidUUIDApi = Config.getConfigProperty("ElectroidUUIDApi");
         BedrockEditionSupport = Boolean.parseBoolean(Config.getConfigProperty("BedrockEditionSupport"));
-        BedrockPlayerPrefix = Config.getConfigProperty("BedrockPlayerPrefix").charAt(0);
+        BedrockPlayerPrefix = Config.getConfigProperty("BedrockPlayerPrefix");
         ServerOnlineMode = Boolean.parseBoolean(Config.getConfigProperty("ServerOnlineMode"));
         ServerPort = Integer.parseInt(Config.getConfigProperty("ServerPort"));
         ServerHostname = Config.getConfigProperty("ServerHostname");
