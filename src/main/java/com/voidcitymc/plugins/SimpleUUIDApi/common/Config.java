@@ -1,5 +1,7 @@
 package com.voidcitymc.plugins.SimpleUUIDApi.common;
 
+import com.voidcitymc.plugins.SimpleUUIDApi.Manager;
+
 import java.io.*;
 import java.util.Properties;
 
@@ -17,26 +19,29 @@ public class Config {
             try {
                 (new File(configFileName)).createNewFile();
 
-                inputStream = Config.class.getClassLoader().getResourceAsStream(configFileName);
+                inputStream = new FileInputStream(configFileName);
                 InputStream defaultConfig = Config.class.getResourceAsStream("/" + configFileName);
 
                 Properties configFilePropertiesFromDisk = new Properties();
                 configFilePropertiesFromDisk.load(defaultConfig);
                 configFilePropertiesFromDisk.store(new FileOutputStream(configFileName), null);
-                configFileProperties = configFilePropertiesFromDisk;
             } catch (IOException e) {
                 return;
             }
         } else {
-            inputStream = Config.class.getClassLoader().getResourceAsStream(configFileName);
+            try {
+                inputStream = new FileInputStream(configFileName);
+            } catch (FileNotFoundException e) {
+            }
+            configFileProperties = new Properties();
+            try {
+                configFileProperties.load(inputStream);
+            } catch (IOException e) {
+            }
         }
     }
 
     public static String getConfigProperty(String property) {
-        if (configFileProperties != null) {
-            return configFileProperties.getProperty(property);
-        } else {
-            return null;
-        }
+        return configFileProperties.getProperty(property);
     }
 }

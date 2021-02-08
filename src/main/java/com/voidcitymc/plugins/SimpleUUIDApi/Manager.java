@@ -39,7 +39,7 @@ public class Manager {
             server.createContext("/", new Server());
             server.setExecutor(threadPoolExecutor);
             server.start();
-            System.out.println("Server started on port "+ServerPort);
+            System.out.println("Server started on "+ServerHostname+":"+ServerPort);
         } catch (IOException e) {
             System.out.println("Could not start server");
             System.out.println(e.getCause().toString());
