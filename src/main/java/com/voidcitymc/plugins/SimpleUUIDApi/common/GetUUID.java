@@ -37,7 +37,7 @@ public class GetUUID {
                 (new Storage()).storeUUID(username, uuid);
                 return username;
             } else {
-                if (isBedrockUUID(uuid)) {
+                if (isBedrockUUID(uuid) && Manager.BedrockEditionSupport) {
                     System.out.println("is bed uuid");
                     System.out.println(xuidFromUUID(uuid));
                     username = Manager.BedrockPlayerPrefix+bedrockGamertagLookup(xuidFromUUID(uuid));
@@ -67,7 +67,10 @@ public class GetUUID {
             }
         }
         //if mojang is false then use bedrock
-        return bedrockUUIDLookup(player);
+        if (Manager.BedrockEditionSupport) {
+            return bedrockUUIDLookup(player);
+        }
+        return null;
 
     }
 
