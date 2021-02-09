@@ -56,8 +56,7 @@ public class GetJsonText {
             } finally {
                 is.close();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ignored) {
         }
         return null;
     }

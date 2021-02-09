@@ -19,7 +19,6 @@ public class Config {
             try {
                 (new File(configFileName)).createNewFile();
 
-                inputStream = new FileInputStream(configFileName);
                 InputStream defaultConfig = Config.class.getResourceAsStream("/" + configFileName);
 
                 Properties configFilePropertiesFromDisk = new Properties();
@@ -28,16 +27,15 @@ public class Config {
             } catch (IOException e) {
                 return;
             }
-        } else {
-            try {
-                inputStream = new FileInputStream(configFileName);
-            } catch (FileNotFoundException e) {
-            }
-            configFileProperties = new Properties();
-            try {
-                configFileProperties.load(inputStream);
-            } catch (IOException e) {
-            }
+        }
+        try {
+            inputStream = new FileInputStream(configFileName);
+        } catch (FileNotFoundException ignored) {
+        }
+        configFileProperties = new Properties();
+        try {
+            configFileProperties.load(inputStream);
+        } catch (IOException ignored) {
         }
     }
 
