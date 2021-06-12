@@ -20,7 +20,7 @@ public class GetJsonText {
         return mainObject.toString();
     }
 
-    public static String getJsonUUIDToUsername(String username, String uuid) {
+    public static String getJsonUUIDToUsername(String username) {
         return (new JSONArray().put(0, new JSONObject().put("name", username))).toString();
     }
 

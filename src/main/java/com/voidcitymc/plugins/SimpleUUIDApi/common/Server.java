@@ -39,8 +39,7 @@ public class Server implements HttpHandler {
         if (httpExchange.getRequestURI().toString().contains("/users/profiles/minecraft/") || httpExchange.getRequestURI().toString().contains("/user/profiles/minecraft/")) {
             htmlResponse = GetJsonText.getJsonUsernameToUUID(requestParamValue, GetUUID.getUUID(requestParamValue));
         } else if ((httpExchange.getRequestURI().toString().contains("/users/profiles/") || httpExchange.getRequestURI().toString().contains("/user/profiles/")) && httpExchange.getRequestURI().toString().contains("/names")) {
-            System.out.println(requestParamValue);
-            htmlResponse = GetJsonText.getJsonUUIDToUsername(GetUUID.getUsername(requestParamValue), requestParamValue);
+            htmlResponse = GetJsonText.getJsonUUIDToUsername(GetUUID.getUsername(requestParamValue.replaceAll("-", "")));
         }
 
         // this line is a must
