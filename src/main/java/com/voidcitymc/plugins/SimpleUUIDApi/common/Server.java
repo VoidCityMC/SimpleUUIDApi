@@ -19,8 +19,12 @@ public class Server implements HttpHandler {
     private String handleGetRequest(HttpExchange httpExchange) {
         if (httpExchange.getRequestURI().toString().contains("/users/profiles/minecraft/")) {
             return httpExchange.getRequestURI().toString().split("/users/profiles/minecraft/")[1].split("/")[0];
-        } else if (httpExchange.getRequestURI().toString().contains("/users/profiles/") && httpExchange.getRequestURI().toString().contains("/names")) {
+        } else if (httpExchange.getRequestURI().toString().contains("/user/profiles/minecraft/")) {
+            return httpExchange.getRequestURI().toString().split("/user/profiles/minecraft/")[1].split("/")[0];
+        } else if (httpExchange.getRequestURI().toString().contains("/users/profiles/") && httpExchange.getRequestURI().toString().contains("/name")) {
             return httpExchange.getRequestURI().toString().split("/users/profiles/")[1].split("/")[0];
+        } else if (httpExchange.getRequestURI().toString().contains("/user/profiles/") && httpExchange.getRequestURI().toString().contains("/name")) {
+            return httpExchange.getRequestURI().toString().split("/user/profiles/")[1].split("/")[0];
         }
         return "null";
         //will return something, if there is content after /test/ ex: http://localhost:8001/test/hi
@@ -32,9 +36,10 @@ public class Server implements HttpHandler {
 
         // encode HTML content
 
-        if (httpExchange.getRequestURI().toString().contains("/users/profiles/minecraft/")) {
+        if (httpExchange.getRequestURI().toString().contains("/users/profiles/minecraft/") || httpExchange.getRequestURI().toString().contains("/user/profiles/minecraft/")) {
             htmlResponse = GetJsonText.getJsonUsernameToUUID(requestParamValue, GetUUID.getUUID(requestParamValue));
-        } else if (httpExchange.getRequestURI().toString().contains("/users/profiles/") && httpExchange.getRequestURI().toString().contains("/names")) {
+        } else if ((httpExchange.getRequestURI().toString().contains("/users/profiles/") || httpExchange.getRequestURI().toString().contains("/user/profiles/")) && httpExchange.getRequestURI().toString().contains("/names")) {
+            System.out.println(requestParamValue);
             htmlResponse = GetJsonText.getJsonUUIDToUsername(GetUUID.getUsername(requestParamValue), requestParamValue);
         }
 
