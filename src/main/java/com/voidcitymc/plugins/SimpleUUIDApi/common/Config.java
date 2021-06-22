@@ -55,7 +55,7 @@ public class Config {
                 return;
             }
 
-            if (!getConfigProperty("BuildTimestamp").equals(defaultConfigProperties.getProperty("BuildTimestamp"))) {
+            if (!localConfigFileProperties.getProperty("BuildTimestamp").equals(defaultConfigProperties.getProperty("BuildTimestamp"))) {
                 configFileProperties = updateConfig(localConfigFileProperties, defaultConfigProperties);
                 try {
                     configFileProperties.store(new FileOutputStream(configFileFullPath), null);
