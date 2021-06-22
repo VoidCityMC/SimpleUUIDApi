@@ -71,7 +71,7 @@ public class Config {
         Properties newConfigProperties = defaultConfigProperties;
         for (String currentKey: defaultConfigProperties.stringPropertyNames()) {
             String currentEntry = properties.getProperty(currentKey);
-            if (currentEntry != null) {
+            if (currentEntry != null && !currentKey.equals("BuildTimestamp")) {
                 newConfigProperties.setProperty(currentKey, currentEntry);
             }
         }
