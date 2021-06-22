@@ -67,17 +67,26 @@ public class Config {
 
         try {
             defaultConfigProperties.load(defaultConfig);
-        } catch (IOException exception) {
-
+        } catch (IOException ignored) {
         }
 
         Set<Map.Entry<Object, Object>> defaultConfigPropertiesEntrySet = defaultConfigProperties.entrySet();
         Iterator<Map.Entry<Object, Object>> defaultConfigPropertiesIterator = defaultConfigPropertiesEntrySet.iterator();
 
+        //add missing values in disk config from jar config
         while (defaultConfigPropertiesIterator.hasNext()) {
             Map.Entry<Object, Object> currentEntry = defaultConfigPropertiesIterator.next();
             properties.putIfAbsent(currentEntry.getKey(), currentEntry.getValue());
         }
+
+        //remove values only present in disk config
+        Set<Object> propertiesSet = properties.keySet();
+        for (Object currentKey: propertiesSet) {
+            if (!defaultConfigProperties.containsKey(currentKey)) {
+                properties.remove(currentKey);
+            }
+        }
+
         return properties;
     }
 
