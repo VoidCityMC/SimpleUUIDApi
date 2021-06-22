@@ -3,19 +3,17 @@ package com.voidcitymc.plugins.SimpleUUIDApi.common;
 import com.voidcitymc.plugins.SimpleUUIDApi.Manager;
 
 import java.io.*;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
 
 public class Config {
     private static InputStream inputStream;
     private static String configFileName = "SimpleUUIDApiConfig.properties";
     private static Properties configFileProperties;
     private static String configFilePath = "";
+    private static String configFileFullPath = "";
 
     private static boolean configExists() {
-        return (new File(configFileName)).exists();
+        return (new File(configFileFullPath)).exists();
     }
 
     public static void setupConfig() {
@@ -23,7 +21,7 @@ public class Config {
             configFilePath = "."+File.separator+"plugins"+File.separator+"SimpleUUIDApi"+File.separator;
         }
 
-        String configFileFullPath = configFilePath+configFileName;
+        configFileFullPath = configFilePath+configFileName;
         InputStream defaultConfig = Config.class.getResourceAsStream("/" + configFileName);
         Properties defaultConfigProperties = new Properties();
 
@@ -56,38 +54,28 @@ public class Config {
                 configFileProperties = defaultConfigProperties;
                 return;
             }
-            configFileProperties = updateConfig(localConfigFileProperties);
-            return;
+
+            if (!getConfigProperty("BuildTimestamp").equals(defaultConfigProperties.getProperty("BuildTimestamp"))) {
+                configFileProperties = updateConfig(localConfigFileProperties, defaultConfigProperties);
+                try {
+                    configFileProperties.store(new FileOutputStream(configFileFullPath), null);
+                } catch (IOException ignored) {
+                }
+            } else {
+                configFileProperties = localConfigFileProperties;
+            }
         }
     }
 
-    private static Properties updateConfig(Properties properties) {
-        InputStream defaultConfig = Config.class.getResourceAsStream("/" + configFileName);
-        Properties defaultConfigProperties = new Properties();
-
-        try {
-            defaultConfigProperties.load(defaultConfig);
-        } catch (IOException ignored) {
-        }
-
-        Set<Map.Entry<Object, Object>> defaultConfigPropertiesEntrySet = defaultConfigProperties.entrySet();
-        Iterator<Map.Entry<Object, Object>> defaultConfigPropertiesIterator = defaultConfigPropertiesEntrySet.iterator();
-
-        //add missing values in disk config from jar config
-        while (defaultConfigPropertiesIterator.hasNext()) {
-            Map.Entry<Object, Object> currentEntry = defaultConfigPropertiesIterator.next();
-            properties.putIfAbsent(currentEntry.getKey(), currentEntry.getValue());
-        }
-
-        //remove values only present in disk config
-        Set<Object> propertiesSet = properties.keySet();
-        for (Object currentKey: propertiesSet) {
-            if (!defaultConfigProperties.containsKey(currentKey)) {
-                properties.remove(currentKey);
+    private static Properties updateConfig(Properties properties, Properties defaultConfigProperties) {
+        Properties newConfigProperties = defaultConfigProperties;
+        for (String currentKey: defaultConfigProperties.stringPropertyNames()) {
+            String currentEntry = properties.getProperty(currentKey);
+            if (currentEntry != null) {
+                newConfigProperties.setProperty(currentKey, currentEntry);
             }
         }
-
-        return properties;
+        return newConfigProperties;
     }
 
     public static String getConfigProperty(String property) {
