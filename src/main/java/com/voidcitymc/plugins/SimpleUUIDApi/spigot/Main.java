@@ -10,6 +10,7 @@ public class Main extends JavaPlugin {
     //enabled
     @Override
     public void onEnable() {
+        getDataFolder().mkdirs();
         getServer().getPluginManager().registerEvents(new Events(), this);
         manager.start(ServerMode.Spigot);
     }

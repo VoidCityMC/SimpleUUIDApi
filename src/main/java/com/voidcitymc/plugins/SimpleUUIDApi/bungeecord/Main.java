@@ -10,6 +10,7 @@ public class Main extends Plugin {
 
     @Override
     public void onEnable() {
+        getDataFolder().mkdirs();
         getProxy().getPluginManager().registerListener(this, new Events());
         manager.start(ServerMode.Bungeecord);
     }
