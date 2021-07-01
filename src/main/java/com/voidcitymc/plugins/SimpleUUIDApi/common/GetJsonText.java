@@ -15,8 +15,16 @@ import java.nio.charset.StandardCharsets;
 public class GetJsonText {
     public static String getJsonUsernameToUUID(String username, String uuid) {
         JSONObject mainObject = new JSONObject();
-        mainObject.put("id", uuid);
-        mainObject.put("name", username);
+        if (uuid != null) {
+            mainObject.put("id", uuid);
+        } else {
+            mainObject.put("id", "");
+        }
+        if (username != null) {
+            mainObject.put("name", username);
+        } else {
+            mainObject.put("name", "");
+        }
         return mainObject.toString();
     }
 

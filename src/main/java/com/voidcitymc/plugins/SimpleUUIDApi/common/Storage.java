@@ -8,12 +8,14 @@ import org.mapdb.Serializer;
 
 public class Storage {
     public void storeUUID(String username, String uuid) {
-        DB db = DBMaker.fileDB("uuidStorage.db").make();
-        BTreeMap<String, String> usernameToUUID = db.treeMap("usernameToUUID").keySerializer(Serializer.STRING).valueSerializer(Serializer.STRING).createOrOpen();
-        usernameToUUID.put(username.toLowerCase(), uuid.replaceAll("-",""));
-        BTreeMap<String, String> uuidToUsername = db.treeMap("UUIDToUsername").keySerializer(Serializer.STRING).valueSerializer(Serializer.STRING).createOrOpen();
-        uuidToUsername.put(uuid.replaceAll("-",""), username);
-        db.close();
+        if (uuid.replaceAll("-","").length() == 32 && username.length() <= 16){
+            DB db = DBMaker.fileDB("uuidStorage.db").make();
+            BTreeMap<String, String> usernameToUUID = db.treeMap("usernameToUUID").keySerializer(Serializer.STRING).valueSerializer(Serializer.STRING).createOrOpen();
+            usernameToUUID.put(username.toLowerCase(), uuid.replaceAll("-", ""));
+            BTreeMap<String, String> uuidToUsername = db.treeMap("UUIDToUsername").keySerializer(Serializer.STRING).valueSerializer(Serializer.STRING).createOrOpen();
+            uuidToUsername.put(uuid.replaceAll("-", ""), username);
+            db.close();
+        }
     }
     public String getUUID(String username) {
         DB db = DBMaker.fileDB("uuidStorage.db").make();
